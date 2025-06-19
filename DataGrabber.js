@@ -1,10 +1,11 @@
 javascript: (
   followers = [{ username: '', full_name: '' }],
   followings = [{ username: '', full_name: '' }],
-  await(async () => {
+  username = prompt('※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:'),
+  (async () => {
     try {
       if(window.location.hostname != 'www.instagram.com') throw new Error('Please do this on www.instagram.com');
-      const username = prompt('※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:');
+      //const username = prompt('※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:');
       if (username === null) throw new Error('Action cancelled.');
       followers = [];
       followings = [];
@@ -16,7 +17,7 @@ javascript: (
           disabled: true,
           onclick: () => {
             try {
-              navigator.clipboard.writeText(JSON.stringify({ followers, followings }));
+              navigator.clipboard.writeText(JSON.stringify({ username, followers, followings }).replace(/username/g,"id").replace(/full_name/g,"tag"));
               console.log(`${followers.length} followers and ${followings.length} followings have been copied to clipboard.`);
             } catch (err) {
               alert(err);
