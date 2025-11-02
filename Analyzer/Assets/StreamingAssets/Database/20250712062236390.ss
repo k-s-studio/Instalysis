@@ -1,0 +1,1 @@
+{"id":"aaa","date":"2025-07-12T06:22:29.5484379+08:00","followers":[{"id":"bbb","tag":"友人B"},{"id":"ccc","tag":"友人C"}],"followings":[{"id":"bbb","tag":"友人B"},{"id":"ccc","tag":"友人C"}]}

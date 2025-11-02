@@ -1,0 +1,1 @@
+{"id":"aaa","followers":[{"id":"bbb","tag":"友人B"},{"id":"ccc","tag":"友人C"}],"followings":[{"id":"bbb","tag":"友人B"},{"id":"ccc","tag":"友人C"}]}

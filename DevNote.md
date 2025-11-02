@@ -9,13 +9,13 @@
 - [x] 檢查網域，非instagram.com則throw error
 - [x] 如果加入按鈕後操作到一半失敗，按鈕不就卡在畫面上
 - [ ] 新增按鈕改成彈出對話框，可以按叉叉關閉並終止操作?
-- [ ] 第一階段完成先push到github，再接著改。
+- [x] 第一階段完成先push到github，再接著改。
 
 <br>
 
 #### 工具
 - https://chateverywhere.app/zh
-- 
+- https://skalman.github.io/UglifyJS-online/
 
 #### 踩雷
 * 雖然在console`copy(await(async () => {})())`可以複製到非同步函數的返回值，但書籤的執行環境未定義copy()。
