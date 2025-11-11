@@ -1,64 +1,69 @@
 javascript: (
-  followers = [{ username: '', full_name: '' }],
-  followings = [{ username: '', full_name: '' }],
-  username = prompt('※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:'),
+  followers = [{ id: ``, name: `` }],
+  followings = [{ id: ``, name: `` }],
+  username = prompt(`※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:`),
+
+  ToURL = (lst_followers, lst_followings) => {
+    let map_merge = new Map();
+    lst_followers.forEach(e => map_merge.set(e.id, { name: e.name, type: `r` }));
+    lst_followings.forEach(e => map_merge.set(e.id, { name: e.name, type: map_merge.has(e.id) ? `rg` : `g` }));
+    const csvContent = `Id,Name,Catagory,Stamp\n`+[...map_merge].map(e => `\"${e[0]}\",\"${e[1].name}\",\"${e[1].type}\",➕`).join(`\n`);
+    const blob = new Blob([`\uFEFF` + csvContent], { type: `text/csv;charset=utf-8;` });
+    return URL.createObjectURL(blob);
+  },
   (async () => {
     try {
-      if(window.location.hostname != 'www.instagram.com') throw new Error('Please do this on www.instagram.com');
-      //const username = prompt('※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:');
-      if (username === null) throw new Error('Action cancelled.');
+      if (window.location.hostname != `www.instagram.com`) throw new Error(`Please do this on www.instagram.com`);
+      //const username = prompt(`※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:`);
+      if (username === null) throw new Error(`Action cancelled.`);
       followers = [];
       followings = [];
-      const btn_copy = document.body.appendChild(document.createElement('button'));
-      // 設置按鈕的文字和樣式
+
+      const style_base = {
+        position: `fixed`, // 固定位置
+        bottom: `20px`, // 距離底部 20 像素
+        fontSize: `16px`, // 字體大小
+        color: `#FFFFFF`, // 字體顏色 
+        border: `none`, // 無邊框
+        borderRadius: `5px`, // 圓角
+        cursor: `pointer` // 鼠標指針樣式
+      };
+      const btn_dl = document.body.appendChild(document.createElement(`a`));
       Object.assign(
-        Object.assign(btn_copy, {
-          innerText: 'Copy',
-          disabled: true,
-          onclick: () => {
-            try {
-              navigator.clipboard.writeText(JSON.stringify({ username, followers, followings }).replace(/username/g,"id").replace(/full_name/g,"tag"));
-              console.log(`${followers.length} followers and ${followings.length} followings have been copied to clipboard.`);
-            } catch (err) {
-              alert(err);
-              console.log('btn_copy.onclick failed with error.');
-            }
-          }
+        Object.assign(btn_dl, {
+          innerText: `Download`,
+          download: `Data-${new Date().toDateString().split(' ').slice(1).join('-')}.csv`,
         }).
-        style, {
-          position: 'fixed', // 固定位置
-          bottom: '20px', // 距離底部 20 像素
-          right: '65px', // 距離右邊 20 像素
-          padding: '10px 20px', // 添加內邊距
-          fontSize: '16px', // 字體大小
-          backgroundColor: '#CCCCCC', // 背景顏色(未啟用) => #007BFF
-          color: '#FFFFFF', // 字體顏色 
-          border: 'none', // 無邊框
-          borderRadius: '5px', // 圓角
-          cursor: 'pointer' // 鼠標指針樣式
+          style,
+        {
+          ...style_base,
+          padding: `10px 20px`, // 添加內邊距
+          right: `65px`, // 距離右邊 20 像素
+          backgroundColor: `#969696ff`, // 背景顏色(未啟用) => #007BFF
         }
       )
-
-      const btn_close = document.body.appendChild(btn_copy.cloneNode(false));
+      const btn_close = document.body.appendChild(document.createElement(`button`));
       Object.assign(
         Object.assign(btn_close, {
-          innerText: '✕',
+          innerText: `✕`,
           disabled: false,
           onclick: () => {
-            btn_copy.remove();
+            btn_dl.remove();
             btn_close.remove();
-            console.log('UI closed.')
+            console.log(`UI closed.`)
           }
         }).
-        style, {
-          right: '20px',
-          padding: '8px',
-          backgroundColor: '#f87daa',
-          width: '38px',
-          height: '38px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          style,
+        {
+          ...style_base,
+          right: `20px`,
+          padding: `8px`,
+          backgroundColor: `#f87daa`,
+          width: `38px`,
+          height: `38px`,
+          display: `flex`,
+          alignItems: `center`,
+          justifyContent: `center`,
           fontWeight: 700,
         }
       )
@@ -84,7 +89,7 @@ javascript: (
             has_next = res.data.user.edge_followed_by.page_info.has_next_page;
             after = res.data.user.edge_followed_by.page_info.end_cursor;
             followers = followers.concat(res.data.user.edge_followed_by.edges.map(({ node }) => {
-              return { username: node.username, full_name: node.full_name, };
+              return { id: node.username, name: node.full_name, };
             }));
           });
       }
@@ -108,21 +113,20 @@ javascript: (
             followings = followings.concat(
               res.data.user.edge_follow.edges.map(({ node }) => {
                 return {
-                  username: node.username,
-                  full_name: node.full_name,
+                  id: node.username,
+                  name: node.full_name,
                 };
               })
             );
           });
       }
-      console.log(`Done.`);
-      console.log('Process ended.');
-      btn_copy.style.backgroundColor = '#007BFF';
-      btn_copy.disabled = false;
+      btn_dl.setAttribute(`href`, ToURL(followers, followings))
+      btn_dl.style.backgroundColor = `#007BFF`;
+      console.log(`Done.\nProcess ended.`);
     } catch (error) {
       alert(error);
-      console.log('Process stopped by error.');
-      return '0';
+      console.log(`Process stopped by error.`);
+      return `0`;
     }
   })()
 )
