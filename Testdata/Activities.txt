@@ -1,0 +1,11 @@
+1.一開始就有mutual, fan, dog
+2.開始追蹤(複數)新的官方帳號
+3.有的帳號消失又出現
+4.原本互相追蹤的人退我，所以我發現後也退他
+5.停止追蹤官方帳號
+6.追蹤的人回追我
+
+Snapshot0 - 一開始就有mutual, fan, dog + 追蹤Trump, 互追Sam, Ben
+Snapshot1 - Sam帳號消失, Ben退追我
+Snapshot2 - Rick,尖頭開始追蹤我, 我退追Trump, Ben
+Snapshot3 - 開始追蹤Sakura Miko,麥噹噹, Sam帳號恢復, 尖頭退我追蹤

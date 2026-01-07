@@ -1,13 +1,13 @@
 javascript: (
   followers = [{ id: ``, name: `` }],
   followings = [{ id: ``, name: `` }],
-  username = prompt(`※按下確定後等待5~10秒，或開啟console確認進度。\n\n請輸入ID:`),
+  username = prompt(`※Input your account ID and wait for 5~10s.\nProcess info is available in console.`),
 
   ToURL = (lst_followers, lst_followings) => {
     let map_merge = new Map();
     lst_followers.forEach(e => map_merge.set(e.id, { name: e.name, type: `r` }));
     lst_followings.forEach(e => map_merge.set(e.id, { name: e.name, type: map_merge.has(e.id) ? `rg` : `g` }));
-    const csvContent = `Id,Name,Catagory,Stamp\n`+[...map_merge].map(e => `\"${e[0]}\",\"${e[1].name}\",\"${e[1].type}\",➕`).join(`\n`);
+    const csvContent = `Id,Name,Catagory,Stamp\n`+[...map_merge].map(e => `\%60${e[0]}\%60,\%60${e[1].name}\%60,\%60${e[1].type}\%60,➕`).join(`\n`);
     const blob = new Blob([`\uFEFF` + csvContent], { type: `text/csv;charset=utf-8;` });
     return URL.createObjectURL(blob);
   },
