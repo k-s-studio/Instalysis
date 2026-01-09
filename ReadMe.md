@@ -26,9 +26,9 @@ Integrated with UI of Notion database views.
 
 - ***Various Ready-made UI*** - It is quite easy to prototype with Notion database views, especially in need of data visualize functionaliy.
 - ***On-Cloud Data Storage*** - An ultimate service should be cross-device and cross-platform, from my perspective.
-- ***Free & Well Known*** - Notion used to be famous in universities. Having no idea if it still is, cause I have graduated. 
+- ***Free & Well Known*** - Notion used to be famous in universities. And...I have graduated so idk if it's still famous, hope so. 
 
-And Notion has various limitation in the other hand, though. I tried my best to optimize the performance and simplfy the workflow, but it still lags and is complicated to a certain extent -- I will try other plaforms for next version.
+Notion has various limitation on the other hand, though. I tried my best to optimize the performance and simplfy the workflow, but it still lags and is complicated to setup to a certain extent -- gonna try other plaforms for next version.
 
 ## Features
 
